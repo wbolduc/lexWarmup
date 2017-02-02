@@ -26,24 +26,28 @@ main( int argc, char * argv[] )
 
 	while( (ttype=getToken())!= ENDFILE )
 	{
-		printToken( ttype, tokenString );
-
-		/*
 		switch (ttype)
 		{
 			case OPEN_TAG:
-				//pushes the current tag to stack without the <>
-				normalizeUpper(tokenString);
-				pushStringStack(strndup(&(tokenString[1]), strlen(tokenString) - 3));
+				pushStringStack(stack, strdup(tokenString));
+				printToken(ttype, tokenString);
 				break;
 			case CLOSE_TAG:
-				strncmp(peekStack(stack),&(tokenString[2], strlen(tokenString) - 4);
+				if (!strcmp(peekStack(stack), tokenString)) //end tag matches start tag
+				{
+					free(popStack(stack));
+				}
+				else
+				{
+					printf("ERROR NON MATCHING TAG ");
+
+				}
+				printToken(ttype, tokenString);
 				break;
 			default:
 
 				break;
 		}
-		*/
 	}
 	
 	freeStringStack(stack);
