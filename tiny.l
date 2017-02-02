@@ -5,9 +5,10 @@
 
 %{
 #include "globals.h"
-#include "stringStack.h"
 #include "util.h"
 #include "scan.h"
+
+char tokenString[MAXTOKENLEN+1];
 
 %}
 letter         [a-zA-z]
@@ -34,16 +35,38 @@ punctuation    [^{letter}{digit} \t\n]
 .               {return ERROR;}
 %%
 
+int min(int a, int b)
+{
+	if (a < b)
+	{
+		return a;
+	}
+	return b;
+}
+
 TokenType getToken(void)
 {
   TokenType token;
-  token = yylex();
-  
-  //stack stuff
 
-  if (token != WHITESPACE)
-    printf("_-_%s_-_ token: %d\n",yytext, token);
+  //skip whitespace
+  while(WHITESPACE == (token = yylex())){}
 
-  //strcpy(tokenString, yytext, MAXTOKENLEN);
+  if (token == OPEN_TAG)
+  {
+	strncpy(tokenString, &(yytext[1]), MAXTOKENLEN);
+	tokenString[strlen(yytext)-2] = '\0';
+  	normalizeUpper(tokenString);
+  }
+  else if (token == CLOSE_TAG)
+  {
+  	strncpy(tokenString, &(yytext[2]), MAXTOKENLEN);
+  	tokenString[strlen(yytext)-3] = '\0';
+  	normalizeUpper(tokenString);
+  }
+  else
+  {
+  	strncpy(tokenString, yytext, MAXTOKENLEN);
+  }
+
   return token;
 }

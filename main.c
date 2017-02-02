@@ -18,8 +18,35 @@ main( int argc, char * argv[] )
 	TokenType ttype;
 	source = stdin;
 	listing = stdout; 
-	while( (ttype=getToken())!= ENDFILE ){}
-		//printToken( ttype, tokenString );
+
+	STRINGSTACK * stack;
+
+	stack = initStringStack(40);
+
+
+	while( (ttype=getToken())!= ENDFILE )
+	{
+		printToken( ttype, tokenString );
+
+		/*
+		switch (ttype)
+		{
+			case OPEN_TAG:
+				//pushes the current tag to stack without the <>
+				normalizeUpper(tokenString);
+				pushStringStack(strndup(&(tokenString[1]), strlen(tokenString) - 3));
+				break;
+			case CLOSE_TAG:
+				strncmp(peekStack(stack),&(tokenString[2], strlen(tokenString) - 4);
+				break;
+			default:
+
+				break;
+		}
+		*/
+	}
+	
+	freeStringStack(stack);
 	return 0;
 }
 

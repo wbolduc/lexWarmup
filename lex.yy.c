@@ -489,11 +489,12 @@ char *yytext;
 /****************************************************/
 #line 7 "tiny.l"
 #include "globals.h"
-#include "stringStack.h"
 #include "util.h"
 #include "scan.h"
 
-#line 497 "lex.yy.c"
+char tokenString[MAXTOKENLEN+1];
+
+#line 498 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -680,9 +681,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 25 "tiny.l"
+#line 26 "tiny.l"
 
-#line 686 "lex.yy.c"
+#line 687 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -767,58 +768,58 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 26 "tiny.l"
+#line 27 "tiny.l"
 {return WORD;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 27 "tiny.l"
+#line 28 "tiny.l"
 {return NUMBER;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "tiny.l"
+#line 29 "tiny.l"
 {return APOSTROPHIZED;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "tiny.l"
+#line 30 "tiny.l"
 {return HYPHENATED;}
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 30 "tiny.l"
+#line 31 "tiny.l"
 {return CLOSE_TAG;}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 31 "tiny.l"
+#line 32 "tiny.l"
 {return OPEN_TAG;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 32 "tiny.l"
+#line 33 "tiny.l"
 {return PUNCTUATION;}
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 33 "tiny.l"
+#line 34 "tiny.l"
 {return WHITESPACE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 34 "tiny.l"
+#line 35 "tiny.l"
 {return ERROR;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 35 "tiny.l"
+#line 36 "tiny.l"
 ECHO;
 	YY_BREAK
-#line 822 "lex.yy.c"
+#line 823 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1816,21 +1817,43 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 35 "tiny.l"
+#line 36 "tiny.l"
 
 
+
+int min(int a, int b)
+{
+	if (a < b)
+	{
+		return a;
+	}
+	return b;
+}
 
 TokenType getToken(void)
 {
   TokenType token;
-  token = yylex();
-  
-  //stack stuff
 
-  if (token != WHITESPACE)
-    printf("_-_%s_-_ token: %d\n",yytext, token);
+  //skip whitespace
+  while(WHITESPACE == (token = yylex())){}
 
-  //strcpy(tokenString, yytext, MAXTOKENLEN);
+  if (token == OPEN_TAG)
+  {
+	strncpy(tokenString, &(yytext[1]), MAXTOKENLEN);
+	tokenString[strlen(yytext)-2] = '\0';
+  	normalizeUpper(tokenString);
+  }
+  else if (token == CLOSE_TAG)
+  {
+  	strncpy(tokenString, &(yytext[2]), MAXTOKENLEN);
+  	tokenString[strlen(yytext)-3] = '\0';
+  	normalizeUpper(tokenString);
+  }
+  else
+  {
+  	strncpy(tokenString, yytext, MAXTOKENLEN);
+  }
+
   return token;
 }
 
