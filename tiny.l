@@ -5,22 +5,33 @@
 
 %{
 #include "globals.h"
+#include "stringStack.h"
 #include "util.h"
 #include "scan.h"
 
-int tagStackHeight = 0;
-
 %}
+letter         [a-zA-z]
+digit          [0-9]
+word           [{digit}{letter}]*{letter}+[{digit}{letter}]*
+number         [+-]?{digit}*\.?{digit}+
+apostrphized   {word}+('{word}+)+
+hyphenated     {word}+(-{word}+)+
+open_tag       <[^\\][^>]*>
+close_tag      <\\[^>]*>
+whitespace     [ \t\n]+
+punctuation    [^{letter}{digit} \t\n]
+
 
 %%
-"\w+\"                  {return WORD;}
-"[+-]?\d*\.?\d+"       {return NUMBER;}
-"\w+('\w+)+"           {return APOSTROPHIZED;}
-"\w+(-\w+)+"           {return HYPHENATED;}
-"[^\\][^>]*>"          {return OPEN_TAG;}
-"<\\[^>]*>"            {return CLOSE_TAG;}
-" \t\n"                {/* skip whitespace */}
-.                      {return ERROR;}
+{word}          {return WORD;}
+{number}        {return NUMBER;}
+{apostrphized}  {return APOSTROPHIZED;}
+{hyphenated}    {return HYPHENATED;}
+{close_tag}     {return CLOSE_TAG;}
+{open_tag}      {return OPEN_TAG;}
+{punctuation}   {return PUNCTUATION;}
+{whitespace}    {return WHITESPACE;}
+.               {return ERROR;}
 %%
 
 TokenType getToken(void)
@@ -30,7 +41,8 @@ TokenType getToken(void)
   
   //stack stuff
 
-  printf("%s token: %d\n",yytext, token);
+  if (token != WHITESPACE)
+    printf("_-_%s_-_ token: %d\n",yytext, token);
 
   //strcpy(tokenString, yytext, MAXTOKENLEN);
   return token;

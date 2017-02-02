@@ -39,7 +39,7 @@ typedef enum
      OPEN_TAG, CLOSE_TAG,
      
      /* other */
-     ERROR
+     WHITESPACE, ERROR
    } TokenType;
 
 #endif

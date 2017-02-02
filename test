@@ -1,5 +1,23 @@
 <doc>
 
 this is some test stuff
+hy-phen-nated
+ap'os'tro'phies
+<dick>
+<dock>
+<duck duckcount = 0>
+<\duck duckcount = 0>
+<\dock>
+<\dick>
+112
+-123
++1243
+1.36
+-1.45
++1.324
++.5
+-.6
+.8
+.
 
 <\doc>
