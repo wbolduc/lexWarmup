@@ -15,4 +15,7 @@ int isRelevantTag(char *str);
 /* converts lowercase chars in a string to upper */
 void normalizeUpper(char* str);
 
+/* gets the number of digits in a number */
+int digitCount(int x);
+
 #endif

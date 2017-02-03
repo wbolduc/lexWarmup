@@ -71,3 +71,14 @@ void normalizeUpper(char* str)
 		}
 	}
 }
+
+/* gets the number of digits in a number */
+int digitCount(int x)
+{
+	int i = 1;
+	while (x >= i * 10)
+	{
+		i++;
+	}
+	return i;
+}

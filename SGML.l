@@ -20,7 +20,8 @@ apostrphized   {diglet}+('{diglet}*)+
 hyphenated     {diglet}+(-{diglet}*)+
 open_tag       <[^\/][^>]*>
 close_tag      <\/[^>]*>
-whitespace     [ \t\n]+
+newline        \n
+whitespace     [ \t]+
 punctuation    [^{letter}{digit} \t\n]
 
 
@@ -32,6 +33,7 @@ punctuation    [^{letter}{digit} \t\n]
 {close_tag}     {return CLOSE_TAG;}
 {open_tag}      {return OPEN_TAG;}
 {punctuation}   {return PUNCTUATION;}
+{newline}       {lineno++;}
 {whitespace}    {return WHITESPACE;}
 .               {return ERROR;}
 %%
