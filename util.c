@@ -1,7 +1,7 @@
 /****************************************************/
 /* File: util.c                                     */
 /* Utility function implementation                  */
-/* for the TINY language                            */
+/* for the SGML scanner                             */
 /****************************************************/
 
 #include "globals.h"
@@ -10,8 +10,7 @@
 const int TAGCOUNT = 7;
 const char * const relevantTags[] = {"TEXT", "DATE", "DOC", "DOCNO", "HEADLINE", "LENGTH", "P"};
 
-/* prints a token and its lexeme to the listing file
- */
+/* prints a token and its lexeme to the listing file */
 void printToken( int token, const char* tokenString )
 { switch (token) {
     case ENDFILE: 
@@ -45,6 +44,7 @@ void printToken( int token, const char* tokenString )
 	}
 }
 
+/* checks to see if a tag will contain relevant info */
 int isRelevantTag(char *str)
 {
 	int i;
@@ -59,6 +59,7 @@ int isRelevantTag(char *str)
 	return 0;
 }
 
+/* converts lowercase chars in a string to upper */
 void normalizeUpper(char* str)
 {
 	int i;
@@ -69,19 +70,4 @@ void normalizeUpper(char* str)
 			str[i] -= 32;
 		}
 	}
-}
-
-/* returns a pointer to a copy of the open token without the < > */
-char *dupStripOpenTag(const char* tokenString)
-{
-	char* toRet;
-	toRet = strndup(&(tokenString[1]), strlen(tokenString) - 3);
-	normalizeUpper(toRet);
-	return toRet;
-}
-
-/* returns a pointer to a copy of the close token without the < > */
-char *dupStripCloseTag(const char* tokenString)
-{
-	return strndup(&(tokenString[2]), strlen(tokenString) - 4);
 }

@@ -1,6 +1,6 @@
 /****************************************************/
 /* File: scan.h                                     */
-/* The scanner interface for the TINY language      */
+/* The scanner interface for the SGML scanner       */
 /****************************************************/
 
 #ifndef _SCAN_H_
@@ -12,8 +12,7 @@
 /* tokenString array stores the lexeme of each token */
 extern char tokenString[MAXTOKENLEN+1];
 
-/* returns the next token in source file
- */
+/* returns the next token in source file */
 TokenType getToken(void);
 
 #endif

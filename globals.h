@@ -1,6 +1,6 @@
 /****************************************************/
 /* File: globals.h                                  */
-/* Global types and vars for the TINY language      */
+/* Global types and vars for the SGML scanner       */
 /****************************************************/
 
 #ifndef _GLOBALS_H_
