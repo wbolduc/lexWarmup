@@ -19,9 +19,7 @@ main( int argc, char * argv[] )
 	source = stdin;
 	listing = stdout;
 
-	char *stackTop; 
 	int currentlyRelevant = 1;
-	int nextIsRelevant = 0;
 
 	STRINGSTACK * stack;
 
@@ -34,21 +32,24 @@ main( int argc, char * argv[] )
 		{
 			case OPEN_TAG:
 				pushStringStack(stack, strdup(tokenString));
-				//check if you are to print anything at all and if you must, check if this tag is relevant
+
 				if (currentlyRelevant)
 				{
 					currentlyRelevant = isRelevantTag(tokenString);
 				}
+
 				break;
 			case CLOSE_TAG:
-				stackTop = peekStack(stack);
-				if (!strcmp(stackTop, tokenString)) //end tag matches start tag
+				if (!strcmp(peekStack(stack), tokenString)) //end tag matches start tag
 				{
 					free(popStack(stack));
+					
 					if (!currentlyRelevant)
 					{
-						nextIsRelevant = isRelevantTag(peekStack(stack));
+						currentlyRelevant = isRelevantTag(peekStack(stack));
+						continue;
 					}
+
 				}
 				else
 				{
@@ -64,10 +65,6 @@ main( int argc, char * argv[] )
 		if (currentlyRelevant)
 		{
 			printToken(ttype, tokenString);
-		}
-		else if (nextIsRelevant)
-		{
-			currentlyRelevant = 1;
 		}
 	}
 	
