@@ -17,7 +17,11 @@ main( int argc, char * argv[] )
 { 
 	TokenType ttype;
 	source = stdin;
-	listing = stdout; 
+	listing = stdout;
+
+	char *stackTop; 
+	int currentlyRelevant = 1;
+	int nextIsRelevant = 0;
 
 	STRINGSTACK * stack;
 
@@ -30,23 +34,40 @@ main( int argc, char * argv[] )
 		{
 			case OPEN_TAG:
 				pushStringStack(stack, strdup(tokenString));
-				printToken(ttype, tokenString);
+				//check if you are to print anything at all and if you must, check if this tag is relevant
+				if (currentlyRelevant)
+				{
+					currentlyRelevant = isRelevantTag(tokenString);
+				}
 				break;
 			case CLOSE_TAG:
-				if (!strcmp(peekStack(stack), tokenString)) //end tag matches start tag
+				stackTop = peekStack(stack);
+				if (!strcmp(stackTop, tokenString)) //end tag matches start tag
 				{
 					free(popStack(stack));
+					if (!currentlyRelevant)
+					{
+						nextIsRelevant = isRelevantTag(peekStack(stack));
+					}
 				}
 				else
 				{
-					printf("ERROR NON MATCHING TAG ");
+					printf("MISMATCH TAG\n");
 
 				}
-				printToken(ttype, tokenString);
+				
 				break;
 			default:
-
 				break;
+		}
+
+		if (currentlyRelevant)
+		{
+			printToken(ttype, tokenString);
+		}
+		else if (nextIsRelevant)
+		{
+			currentlyRelevant = 1;
 		}
 	}
 	

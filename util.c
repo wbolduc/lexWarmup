@@ -7,6 +7,9 @@
 #include "globals.h"
 #include "util.h"
 
+const int TAGCOUNT = 7;
+const char * const relevantTags[] = {"TEXT", "DATE", "DOC", "DOCNO", "HEADLINE", "LENGTH", "P"};
+
 /* prints a token and its lexeme to the listing file
  */
 void printToken( int token, const char* tokenString )
@@ -29,10 +32,10 @@ void printToken( int token, const char* tokenString )
     	fprintf(listing, "PUNCTUATION(%s)\n", tokenString);
     	break;
 	case OPEN_TAG:
-    	fprintf(listing, "OPEN_TAG(%s)\n", tokenString);
+    	fprintf(listing, "OPEN-%s\n", tokenString);
     	break;
     case CLOSE_TAG:
-    	fprintf(listing, "CLOSE_TAG(%s)\n", tokenString);
+    	fprintf(listing, "CLOSE-%s\n", tokenString);
     	break;
     case ERROR:
 		fprintf(listing, "ERROR(%s)\n", tokenString);
@@ -40,6 +43,20 @@ void printToken( int token, const char* tokenString )
     default: /* should never happen */
 		fprintf(listing, "Unknown(%s)\n", tokenString);
 	}
+}
+
+int isRelevantTag(char *str)
+{
+	int i;
+
+	for(i = 0; i < TAGCOUNT; i++)
+	{
+		if (!strcmp(str,relevantTags[i]))
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 void normalizeUpper(char* str)

@@ -13,7 +13,6 @@ typedef struct STRINGSTACK
 	char **stack;
 }STRINGSTACK;
 
-
 /* initializes the string stack*/
 STRINGSTACK* initStringStack(int heightSuggestion);
 

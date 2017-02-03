@@ -13,12 +13,13 @@ char tokenString[MAXTOKENLEN+1];
 %}
 letter         [a-zA-z]
 digit          [0-9]
-word           [{digit}{letter}]*{letter}+[{digit}{letter}]*
+diglet         [0-9a-zA-Z]
+word           {diglet}*{letter}+{diglet}*
 number         [+-]?{digit}*\.?{digit}+
-apostrphized   {word}+('{word}+)+
-hyphenated     {word}+(-{word}+)+
-open_tag       <[^\\][^>]*>
-close_tag      <\\[^>]*>
+apostrphized   {diglet}+('{diglet}*)+
+hyphenated     {diglet}+(-{diglet}*)+
+open_tag       <[^\/][^>]*>
+close_tag      <\/[^>]*>
 whitespace     [ \t\n]+
 punctuation    [^{letter}{digit} \t\n]
 
@@ -34,15 +35,6 @@ punctuation    [^{letter}{digit} \t\n]
 {whitespace}    {return WHITESPACE;}
 .               {return ERROR;}
 %%
-
-int min(int a, int b)
-{
-	if (a < b)
-	{
-		return a;
-	}
-	return b;
-}
 
 TokenType getToken(void)
 {
