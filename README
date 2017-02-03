@@ -1,11 +1,12 @@
+wbolduc
+0851313
+CIS4650
 
-   This directory contains all the required files for building a scanner 
-for the Tiny language.  
+This directory contains all the required files for building a scanner for the SGML formatted text.  
 
-   To build the scanner, type "make" in the current directory, which will 
-generate an executable program called "scanner".
+To build the scanner, type "make" in the current directory, which will generate an executable program called "scanner".
 
-   To test source code like "gcd.tiny", type "./scanner < gcd.tiny" and 
-the token sequence will be displayed on the screen.
+To scan text, after building, type "./scanner < your_file" (where your_file is the name of your file to scan). Optionally you can capture output by piping it to another file.
+	eg. "./scanner < your_file > output_file"
 
-   To rebuild the scanner, type "make clean" and type "make" again.
+To rebuild the scanner, type "make clean" and type "make" again.

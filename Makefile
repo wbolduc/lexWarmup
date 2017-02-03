@@ -20,8 +20,8 @@ stringStack.o: stringStack.c stringStack.h
 util.o: util.c util.h globals.h
 	$(CC) $(CFLAGS) -c util.c
 
-lex.yy.c: tiny.l
-	flex tiny.l
+lex.yy.c: SGML.l
+	flex SGML.l
 
 lex.yy.o: lex.yy.c globals.h util.h
 	$(CC) $(CFLAGS) -c lex.yy.c
